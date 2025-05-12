@@ -1,0 +1,42 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+
+# Virtual environments
+.venv/
+
+# Poetry
+poetry.lock
+
+# VS Code / PyCharm
+.vscode/
+.idea/
+
+# macOS
+.DS_Store
+
+# Pytest / coverage
+.coverage
+.cache/
+htmlcov/
+*.cover
+*.py,cover
+coverage.xml
+
+# Logs
+*.log
+
+# Environment variables
+.env
+
+# FastAPI static/docs cache
+static/
+docs/_build/
+
+# Jupyter/IPython
+.ipynb_checkpoints/
+
+# System files
+Thumbs.db
