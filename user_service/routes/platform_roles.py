@@ -2,12 +2,14 @@ from typing import Dict, List
 
 from fastapi import APIRouter
 
-from user_service.models.schemas import PlatformRole, PlatformRoleUpdate, UserInfo
+from user_service.models.schemas import (PlatformRole, PlatformRoleUpdate,
+                                         UserInfo)
 from user_service.services.graph import graph_delete, graph_get, graph_post
 
 router = APIRouter()
 
-PLATFORM_ROLE_PREFIX="PR_"
+PLATFORM_ROLE_PREFIX = "PR_"
+
 
 @router.get("/", response_model=List[PlatformRole])
 async def list_platform_roles():
@@ -30,7 +32,7 @@ async def list_platform_roles():
             "id": g["id"],
             "displayName": g["displayName"],
             "mailNickname": g.get("mailNickname", ""),
-            "description": g.get("description", "")
+            "description": g.get("description", ""),
         }
         for g in data.get("value", [])
         if g["displayName"].startswith(PLATFORM_ROLE_PREFIX)
@@ -62,16 +64,19 @@ async def get_service_roles_for_platform_role(role_id: str):
             r["id"]: {
                 "id": r["id"],
                 "value": r.get("value", "(unnamed)"),
-                "displayName": r.get("displayName", r.get("value", "(unnamed)"))
+                "displayName": r.get("displayName", r.get("value", "(unnamed)")),
             }
             for r in sp.get("appRoles", [])
         }
 
-        role = roles_by_id.get(app_role_id, {
-            "id": app_role_id,
-            "value": "unknown",
-            "displayName": "Unknown or Deleted Role"
-        })
+        role = roles_by_id.get(
+            app_role_id,
+            {
+                "id": app_role_id,
+                "value": "unknown",
+                "displayName": "Unknown or Deleted Role",
+            },
+        )
 
         result.setdefault(app_name, []).append(role)
 
@@ -102,14 +107,14 @@ async def get_users_in_platform_role(role_id: str):
     users = []
     for m in members.get("value", []):
         if m["@odata.type"] == "#microsoft.graph.user":
-            users.append({
-                "id": m["id"],
-                "displayName": m["displayName"],
-                "userPrincipalName": m["userPrincipalName"]
-            })
+            users.append(
+                {
+                    "id": m["id"],
+                    "displayName": m["displayName"],
+                    "userPrincipalName": m["userPrincipalName"],
+                }
+            )
     return users
-
-
 
 
 @router.post("/{role_id}/users")
@@ -147,9 +152,10 @@ async def add_user_to_platform_role(role_id: str, payload: Dict[str, str]):
         dict
             A success message if the operation completes.
         """
-        await graph_post(f"/groups/{role_id}/members/$ref", {
-            "@odata.id": f"https://graph.microsoft.com/v1.0/directoryObjects/{user_id}"
-        })
+        await graph_post(
+            f"/groups/{role_id}/members/$ref",
+            {"@odata.id": f"https://graph.microsoft.com/v1.0/directoryObjects/{user_id}"},
+        )
 
         return {"message": "User added to platform role."}
 
@@ -173,7 +179,6 @@ async def remove_user_from_platform_role(role_id: str, user_id: str):
     """
     await graph_delete(f"/groups/{role_id}/members/{user_id}/$ref")
     return {"message": "User removed from platform role."}
-
 
 
 @router.put("/users/{user_id}/platform-role")

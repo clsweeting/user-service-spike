@@ -59,9 +59,9 @@ async def get_access_token() -> str:
                 "client_id": CLIENT_ID,
                 "client_secret": CLIENT_SECRET,
                 "scope": "https://graph.microsoft.com/.default",
-                "grant_type": "client_credentials"
+                "grant_type": "client_credentials",
             },
-            headers={"Content-Type": "application/x-www-form-urlencoded"}
+            headers={"Content-Type": "application/x-www-form-urlencoded"},
         )
         response.raise_for_status()
         token = response.json()["access_token"]
@@ -90,13 +90,9 @@ async def graph_get(endpoint: str) -> dict:
     """
     token = await get_access_token()
     async with httpx.AsyncClient() as client:
-        response = await client.get(
-            f"{GRAPH_API}{endpoint}",
-            headers={"Authorization": f"Bearer {token}"}
-        )
+        response = await client.get(f"{GRAPH_API}{endpoint}", headers={"Authorization": f"Bearer {token}"})
         response.raise_for_status()
         return response.json()
-
 
 
 async def graph_post(endpoint: str, json: dict) -> dict:
@@ -125,11 +121,10 @@ async def graph_post(endpoint: str, json: dict) -> dict:
         response = await client.post(
             f"{GRAPH_API}{endpoint}",
             json=json,
-            headers={"Authorization": f"Bearer {token}"}
+            headers={"Authorization": f"Bearer {token}"},
         )
         response.raise_for_status()
         return response.json() if response.content else {}
-
 
 
 async def graph_delete(endpoint: str) -> None:
@@ -148,8 +143,5 @@ async def graph_delete(endpoint: str) -> None:
     """
     token = await get_access_token()
     async with httpx.AsyncClient() as client:
-        response = await client.delete(
-            f"{GRAPH_API}{endpoint}",
-            headers={"Authorization": f"Bearer {token}"}
-        )
+        response = await client.delete(f"{GRAPH_API}{endpoint}", headers={"Authorization": f"Bearer {token}"})
         response.raise_for_status()
