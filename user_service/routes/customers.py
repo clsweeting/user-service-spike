@@ -1,6 +1,8 @@
-from fastapi import APIRouter, HTTPException
-from typing import List, Dict
-from user_service.models.schemas import UserInfo, CustomerCreateRequest, CustomerInfo
+from typing import Dict, List
+
+from fastapi import APIRouter
+
+from user_service.models.schemas import CustomerCreateRequest, CustomerInfo, UserInfo
 from user_service.services.graph import graph_get, graph_post
 
 router = APIRouter()

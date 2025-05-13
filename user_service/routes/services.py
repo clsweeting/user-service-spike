@@ -1,5 +1,7 @@
-from fastapi import APIRouter, HTTPException
-from typing import List, Dict
+from typing import Dict, List
+
+from fastapi import APIRouter
+
 from user_service.services.graph import graph_get
 
 router = APIRouter()

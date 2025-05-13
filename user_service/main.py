@@ -1,7 +1,7 @@
-from fastapi import FastAPI, Depends, HTTPException
-from typing import List, Dict
 
-from user_service.routes import platform_roles, users, customers, services
+from fastapi import FastAPI
+
+from user_service.routes import customers, platform_roles, services, users
 
 app = FastAPI()
 

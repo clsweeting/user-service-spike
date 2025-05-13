@@ -1,6 +1,8 @@
-from fastapi import APIRouter
 from typing import List
-from user_service.models.schemas import PlatformRole, UserInfo
+
+from fastapi import APIRouter
+
+from user_service.models.schemas import UserInfo
 from user_service.services.graph import graph_get
 
 router = APIRouter()

@@ -1,11 +1,9 @@
 import os
+
 import httpx
-
-from dotenv import load_dotenv
-
 from cachetools import TTLCache
 from cachetools.keys import hashkey
-
+from dotenv import load_dotenv
 
 if not os.getenv("AZURE_CLIENT_ID"):
     load_dotenv()

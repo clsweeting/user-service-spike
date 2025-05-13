@@ -1,7 +1,9 @@
-from fastapi import APIRouter, HTTPException
-from typing import List, Dict
-from user_service.models.schemas import PlatformRole, UserInfo, PlatformRoleUpdate
-from user_service.services.graph import graph_get,graph_delete, graph_post
+from typing import Dict, List
+
+from fastapi import APIRouter
+
+from user_service.models.schemas import PlatformRole, PlatformRoleUpdate, UserInfo
+from user_service.services.graph import graph_delete, graph_get, graph_post
 
 router = APIRouter()
 
