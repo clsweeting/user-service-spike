@@ -9,6 +9,7 @@ router = APIRouter()
 
 CUSTOMER_PREFIX = "CUST_"
 
+
 @router.get("/", response_model=List[CustomerInfo])
 async def list_customers():
     """
@@ -25,7 +26,7 @@ async def list_customers():
             "id": g["id"],
             "displayName": g["displayName"],
             "mailNickname": g.get("mailNickname", ""),
-            "description": g.get("description", "")
+            "description": g.get("description", ""),
         }
         for g in data.get("value", [])
         if g["displayName"].startswith(CUSTOMER_PREFIX)
@@ -54,11 +55,10 @@ async def create_customer(payload: CustomerCreateRequest):
         "description": payload.description or f"Customer group for {payload.name}",
         "securityEnabled": True,
         "mailEnabled": False,
-        "groupTypes": []
+        "groupTypes": [],
     }
     created = await graph_post("/groups", group_data)
     return {"id": created["id"], "displayName": created["displayName"]}
-
 
 
 @router.get("/{customer_id}/users", response_model=List[UserInfo])
@@ -80,11 +80,13 @@ async def get_users_in_customer(customer_id: str):
     users = []
     for m in members.get("value", []):
         if m.get("@odata.type") == "#microsoft.graph.user":
-            users.append({
-                "id": m["id"],
-                "displayName": m["displayName"],
-                "userPrincipalName": m["userPrincipalName"]
-            })
+            users.append(
+                {
+                    "id": m["id"],
+                    "displayName": m["displayName"],
+                    "userPrincipalName": m["userPrincipalName"],
+                }
+            )
     return users
 
 
@@ -105,7 +107,8 @@ async def assign_user_to_customer(customer_id: str, user_id: str):
     dict
         A success message.
     """
-    await graph_post(f"/groups/{customer_id}/members/$ref", {
-        "@odata.id": f"https://graph.microsoft.com/v1.0/directoryObjects/{user_id}"
-    })
+    await graph_post(
+        f"/groups/{customer_id}/members/$ref",
+        {"@odata.id": f"https://graph.microsoft.com/v1.0/directoryObjects/{user_id}"},
+    )
     return {"message": "User assigned to customer."}

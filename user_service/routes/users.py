@@ -11,7 +11,7 @@ router = APIRouter()
 @router.get(
     "/",
     response_model=List[UserInfo],
-    description="Returns all user accounts in Entra ID, excluding non-user directory objects like service principals or contacts."
+    description="Returns all user accounts in Entra ID, excluding non-user directory objects like service principals or contacts.",
 )
 async def list_users():
     """
@@ -33,17 +33,17 @@ async def list_users():
         {
             "id": u["id"],
             "displayName": u["displayName"],
-            "userPrincipalName": u["userPrincipalName"]
+            "userPrincipalName": u["userPrincipalName"],
         }
         for u in data.get("value", [])
-        if "@odata.type" not in u or u["@odata.type"] == "#microsoft.graph.user" # defensive filter
+        if "@odata.type" not in u or u["@odata.type"] == "#microsoft.graph.user"  # defensive filter
     ]
 
 
 @router.get(
     "/{user_id}/platform-roles",
-            response_model=List[str],
-            description="Returns the platform roles (i.e., Entra groups) the given user is a member of. Only direct group memberships are returned."
+    response_model=List[str],
+    description="Returns the platform roles (i.e., Entra groups) the given user is a member of. Only direct group memberships are returned.",
 )
 async def get_user_platform_roles(user_id: str):
     """
@@ -66,4 +66,3 @@ async def get_user_platform_roles(user_id: str):
     """
     groups = await graph_get(f"/users/{user_id}/memberOf")
     return [g["displayName"] for g in groups.get("value", []) if "displayName" in g]
-

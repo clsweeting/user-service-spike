@@ -25,7 +25,6 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.group.dev.dependencies]
 black = "^25.1.0"
-isort = "^6.0.1"
 ruff = "^0.11.9"
 mypy = "^1.15.0"
 pytest = "^8.3.5"
@@ -33,11 +32,15 @@ types-cachetools = "^5.5.0.20240820"
 
 
 [tool.ruff]
-line-length = 100
+line-length = 120
 target-version = "py313"
-select = ["E", "F", "I"]      # pycodestyle, pyflakes, isort
-ignore = ["E501"]             # Ignore long lines (handled by black)
 
 [tool.ruff.lint]
+select = ["E", "F", "I"]      # pycodestyle, pyflakes, isort
+ignore = ["E501"]             # Ignore long lines (handled by black)
 fixable = ["ALL"]
 unfixable = []
+
+[tool.black]
+line-length = 120
+target-version = ['py313']
