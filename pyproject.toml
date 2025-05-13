@@ -29,6 +29,7 @@ isort = "^6.0.1"
 ruff = "^0.11.9"
 mypy = "^1.15.0"
 pytest = "^8.3.5"
+types-cachetools = "^5.5.0.20240820"
 
 
 [tool.ruff]

@@ -1,5 +1,7 @@
 import os
 
+from typing import Any
+
 import httpx
 from cachetools import TTLCache
 from cachetools.keys import hashkey
@@ -17,7 +19,7 @@ GRAPH_API = "https://graph.microsoft.com/v1.0"
 
 # Using TTLCache - Thread-safe for simple single-process FastAPI apps
 # Cache for 3600s (1 hour), with maxsize=1 since we only need one token
-token_cache = TTLCache(maxsize=1, ttl=3600)
+token_cache: TTLCache[str, Any] = TTLCache(maxsize=1, ttl=3600)
 
 
 def token_cache_key():
