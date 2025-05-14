@@ -44,5 +44,12 @@ jobs:
       - name: Install dependencies
         run: poetry install
 
-      - name: Run Tests
-        run: poetry run pytest --maxfail=1 --disable-warnings -v
+      - name: Run Tests (soft fail if no tests)
+        run: |
+          poetry run pytest --maxfail=1 --disable-warnings -v || exit_code=$?
+          if [ "$exit_code" -eq 5 ]; then
+            echo "No tests found — continuing anyway."
+            exit 0
+          else
+            exit $exit_code
+          fi

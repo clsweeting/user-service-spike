@@ -1,4 +1,4 @@
-from typing import Dict, List
+from typing import Any, Dict, List
 
 from fastapi import APIRouter
 
@@ -50,7 +50,7 @@ async def get_service_roles_for_platform_role(role_id: str):
         including both role `value` and `displayName`.
     """
     assignments = await graph_get(f"/groups/{role_id}/appRoleAssignments")
-    result = {}
+    result: dict[str, Any] = {}
 
     for a in assignments.get("value", []):
         app_name = a.get("resourceDisplayName", "Unknown App")

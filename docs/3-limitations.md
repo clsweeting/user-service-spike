@@ -4,7 +4,12 @@
 
 > A maximum of 500 role-assignable groups can be created in a single Microsoft Entra organization (tenant).
 
-Reference: https://learn.microsoft.com/en-us/entra/identity/users/directory-service-limits-restrictions
+However, it's not clear if this is app registration roles or just Entra ID roles. 
+
+Reference: 
+- https://learn.microsoft.com/en-us/entra/identity/users/directory-service-limits-restrictions
+- https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/groups-concept
+
 
 Keep in mind: each TRE workspace will also create 3 groups. 
 
